@@ -169,7 +169,7 @@ const renderBlogArchive = () => {
   }
   
   archiveRoot.innerHTML = content.blog.map(renderBlogCard).join('');
-  /*const filterSelect = qs('[data-blog-filter]');
+  const filterSelect = qs('[data-blog-filter]');
   const searchInput = qs('[data-blog-search]');
   const categories = ['Tümü', ...new Set(content.blog.map(post => post.category))];
   filterSelect.innerHTML = categories
@@ -185,7 +185,7 @@ const renderBlogArchive = () => {
     });
   };
   filterSelect.addEventListener('change', applyFilters);
-  searchInput.addEventListener('input', applyFilters);*/
+  searchInput.addEventListener('input', applyFilters);
 };
 
 const renderContact = () => {
