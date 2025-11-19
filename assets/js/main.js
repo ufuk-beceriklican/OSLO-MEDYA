@@ -284,6 +284,50 @@ const initStickyNav = () => {
   toggle();
 };
 
+const initMobileMenu = () => {
+  const navbar = document.querySelector('.navbar');
+  const navLinks = document.querySelector('.nav-links');
+  const btn = document.querySelector('.mobile-menu-btn');
+  
+  if (!navbar || !navLinks || !btn) return;
+
+  // Toggle functionality
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    navLinks.classList.toggle('active');
+    
+    const icon = btn.querySelector('i');
+    if (navLinks.classList.contains('active')) {
+      icon.classList.replace('ph-list', 'ph-x');
+      document.body.style.overflow = 'hidden';
+    } else {
+      icon.classList.replace('ph-x', 'ph-list');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Close when clicking outside (Updated for full screen menu)
+  // Since nav-links now covers the whole screen, we check if the click target is the container itself
+  navLinks.addEventListener('click', (e) => {
+    if (e.target === navLinks) {
+      navLinks.classList.remove('active');
+      const icon = btn.querySelector('i');
+      if (icon) icon.classList.replace('ph-x', 'ph-list');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Close when link clicked
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+      const icon = btn.querySelector('i');
+      if (icon) icon.classList.replace('ph-x', 'ph-list');
+      document.body.style.overflow = '';
+    });
+  });
+};
+
 const init = () => {
   renderHero();
   renderServices();
@@ -295,6 +339,7 @@ const init = () => {
   renderContact();
   initServiceModal();
   initStickyNav();
+  initMobileMenu();
   initPageTransition();
   initScrollReveal();
   

@@ -19,6 +19,33 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg); 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: var(--bg-soft); 
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-blue); 
+}
+
 body {
   font-family: 'Space Grotesk', 'Montserrat', sans-serif;
   background: radial-gradient(circle at 20% 20%, rgba(90, 122, 255, 0.35), transparent 50%),
@@ -75,7 +102,6 @@ header.site-header.scrolled {
   padding: 16px 0;
   gap: 24px;
   position: relative;
-  overflow-x: hidden;
   width: 100%;
 }
 
@@ -539,6 +565,12 @@ section p.section-copy {
   margin: 8px 0;
 }
 
+.blog-card__body p {
+  margin-bottom: 24px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
 .blog-controls {
   display: flex;
   gap: 16px;
@@ -745,66 +777,263 @@ footer ul {
   margin-bottom: 12px;
 }
 
+/* RESPONSIVE DESIGN UPDATES */
+
+/* Mobile Menu Button (Desktop Hidden) */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 60;
+  transition: color 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+  color: var(--neon-cyan);
+}
+
+@media (max-width: 992px) {
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+}
+
 @media (max-width: 768px) {
+  /* Navbar Mobile Layout */
   .navbar {
-    flex-direction: column;
-    gap: 16px;
-  }
-  .nav-links {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
     flex-wrap: wrap;
+  }
+
+  /* Remove nav wrapper from flow to prevent spacing issues */
+  .navbar nav {
+    display: contents;
+  }
+
+  /* Mobile Menu Button Visible */
+  .mobile-menu-btn {
+    display: block;
+    margin-left: auto; /* Force right alignment */
+  }
+
+  /* Header CTA Button - Hide on mobile to save space */
+  header .primary-btn {
+    display: none;
+  }
+
+  /* Navigation Links - Mobile Full Screen Redesign */
+  .nav-links {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
     justify-content: center;
-    gap: 12px;
-    font-size: 0.85rem;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(5, 5, 16, 0.98); /* Darker background */
+    padding: 24px;
+    z-index: 55;
+    backdrop-filter: blur(25px);
+    gap: 32px;
+    
+    /* Hidden state */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(0.95);
   }
-  .blog-card {
-    grid-template-columns: 1fr;
+
+  .nav-links.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+    transform: scale(1);
   }
-  .blog-card__thumb {
-    min-height: 200px;
+
+  .nav-links li {
+    width: auto;
+    display: block;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.4s ease;
   }
+
+  .nav-links.active li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger delay for items */
+  .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
+  .nav-links.active li:nth-child(2) { transition-delay: 0.15s; }
+  .nav-links.active li:nth-child(3) { transition-delay: 0.2s; }
+  .nav-links.active li:nth-child(4) { transition-delay: 0.25s; }
+  .nav-links.active li:nth-child(5) { transition-delay: 0.3s; }
+
+  .nav-links a {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    width: auto;
+    display: inline-block;
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: none;
+    color: var(--text);
+    position: relative;
+  }
+  
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: var(--neon-cyan);
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: var(--neon-cyan);
+    padding-left: 0;
+    background: transparent;
+    transform: scale(1.05);
+  }
+  
+  .nav-links a:hover::after {
+    width: 100%;
+    left: 0;
+  }
+  
+  /* Removed keyframes animation in favor of transition */
+
+  /* Hero Section Adjustments */
   .hero {
     padding-top: 60px;
     grid-template-columns: 1fr;
+    text-align: center;
   }
+  
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-content p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-cta {
+    justify-content: center;
+  }
+
+  /* Hero Visual & Card Adjustments */
+  .hero-visual {
+    min-height: auto;
+    margin-top: 40px;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+    /* Show visuals on mobile but simplified */
+    display: block; 
+  }
+  
+  .hero-visual::after,
+  .hero-visual::before,
+  .blob-one,
+  .blob-two {
+    /* Keep blobs on mobile for atmosphere */
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+  
+  .blob-one { top: -20px; left: -10px; }
+  .blob-two { bottom: -30px; right: -10px; }
+
   .hero-card {
-    inset: 16px;
-    padding: 20px;
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    inset: 0;
+    margin-top: 0;
+    background: rgba(15, 15, 35, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
-  .hero-content h1 {
-    font-size: 2rem;
-  }
-  .service-grid {
+
+  /* Grids to Single Column */
+  .service-grid,
+  .reference-grid,
+  .contact-grid,
+  .blog-grid,
+  .infra-grid {
     grid-template-columns: 1fr;
   }
-  .reference-grid {
+
+  /* Blog Card Adjustments */
+  .blog-card {
     grid-template-columns: 1fr;
   }
-  .contact-grid {
-    grid-template-columns: 1fr;
+  
+  .blog-card__thumb {
+    min-height: 200px;
+    width: 100%;
   }
+
   .blog-detail {
     padding: 24px 16px;
   }
+  
   .blog-detail__content {
     font-size: 1rem;
   }
+
+  /* General Padding */
   section {
     padding: 48px 0;
   }
+  
   .site-wrapper {
-    padding: 0 16px;
+    padding: 0 20px;
   }
 }
 
 @media (max-width: 480px) {
   .hero-content h1 {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
+  
   .section-title {
     font-size: 1.8rem;
   }
+  
   .primary-btn, .ghost-btn {
-    padding: 8px 16px;
-    font-size: 0.9rem;
+    width: 100%;
+    text-align: center;
   }
+  
+  .hero-card {
+    padding: 20px;
+  }
+}
+
+@keyframes menuSlide {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
