@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OSLOMEDYA Yönetim Paneli</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="page-loaded admin-shell">
+    <!-- Şifre Giriş Ekranı -->
+    <div id="passwordScreen" class="password-screen">
+      <div class="password-box">
+        <img
+          src="assets/img/oslo-logo.svg"
+          alt="OSLOMEDYA"
+          style="width: 80px; margin: 0 auto 24px; display: block;"
+        />
+        <h2>Yönetim Paneli</h2>
+        <p style="color: var(--muted); margin-bottom: 24px;">Lütfen şifrenizi girin</p>
+        <input
+          type="password"
+          id="passwordInput"
+          placeholder="Şifre"
+          autocomplete="off"
+          style="width: 100%; padding: 14px 18px; background: rgba(7, 7, 20, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; color: var(--text); font-size: 1rem; margin-bottom: 16px;"
+        />
+        <p id="passwordError" style="color: var(--neon-magenta); display: none; margin-bottom: 16px; font-size: 0.9rem;">Hatalı şifre!</p>
+        <button
+          type="button"
+          id="passwordSubmit"
+          class="primary-btn"
+          style="width: 100%;"
+        >
+          Giriş Yap
+        </button>
+      </div>
+    </div>
+
+    <!-- Ana Panel İçeriği -->
+    <main class="admin-wrapper" id="adminContent" style="display: none;">
+      <header style="margin-bottom: 32px; text-align:center;">
+        <img
+          src="assets/img/oslo-logo.svg"
+          alt="OSLOMEDYA"
+          style="width: 80px; margin: 0 auto 16px;"
+        />
+        <h1>OSLOMEDYA Yönetim Paneli</h1>
+        <p style="color: var(--muted); max-width: 520px; margin: 12px auto;">
+          Bu panel, statik site içeriğini LocalStorage üzerinden güncellemenizi
+          sağlar. Değişiklikler tarayıcınızda saklanır.
+        </p>
+      </header>
+
+      <section class="admin-grid">
+        <form class="admin-card" id="quickForm">
+          <h2>Hızlı Kahraman & İletişim Güncelleme</h2>
+          <label>
+            Hero Başlık
+            <input id="heroHeadline" required />
+          </label>
+          <label>
+            Hero Alt Başlık
+            <textarea id="heroSubheading" rows="2"></textarea>
+          </label>
+          <label>
+            CTA Etiketi
+            <input id="heroCtaLabel" required />
+          </label>
+          <label>
+            CTA Link
+            <input id="heroCtaLink" required />
+          </label>
+          <label>
+            Telefon
+            <input id="contactPhone" required />
+          </label>
+          <label>
+            E-posta
+            <input id="contactMail" type="email" required />
+          </label>
+          <label>
+            Adres
+            <input id="contactAddress" required />
+          </label>
+          <label>
+            WP Teklif Linki
+            <input id="contactWp" required />
+          </label>
+          <div class="admin-actions">
+            <button class="primary-btn" type="submit">Kaydet</button>
+            <button class="ghost-btn" type="button" id="resetBtn">
+              Varsayılanı Yükle
+            </button>
+          </div>
+        </form>
+
+        <form class="admin-card" id="jsonForm">
+          <h2>Tüm İçeriği JSON ile Düzenle</h2>
+          <textarea id="jsonEditor"></textarea>
+          <div class="admin-actions">
+            <button class="primary-btn" type="submit">JSON'u Kaydet</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      // Şifre koruması
+      const ADMIN_PASSWORD = '626400';
+      const SESSION_KEY = 'admin_authenticated';
+      
+      const passwordScreen = document.getElementById('passwordScreen');
+      const adminContent = document.getElementById('adminContent');
+      const passwordInput = document.getElementById('passwordInput');
+      const passwordSubmit = document.getElementById('passwordSubmit');
+      const passwordError = document.getElementById('passwordError');
+      
+      // Session kontrolü
+      const checkAuth = () => {
+        const authenticated = sessionStorage.getItem(SESSION_KEY);
+        if (authenticated === 'true') {
+          passwordScreen.style.display = 'none';
+          adminContent.style.display = 'block';
+          return true;
+        }
+        return false;
+      };
+      
+      // Şifre kontrolü
+      const handleLogin = () => {
+        const password = passwordInput.value;
+        if (password === ADMIN_PASSWORD) {
+          sessionStorage.setItem(SESSION_KEY, 'true');
+          passwordScreen.style.display = 'none';
+          adminContent.style.display = 'block';
+          passwordError.style.display = 'none';
+          passwordInput.value = '';
+        } else {
+          passwordError.style.display = 'block';
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      };
+      
+      // Enter tuşu ile giriş
+      passwordInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          handleLogin();
+        }
+      });
+      
+      passwordSubmit.addEventListener('click', handleLogin);
+      
+      // Sayfa yüklendiğinde kontrol et
+      if (!checkAuth()) {
+        passwordInput.focus();
+      }
+    </script>
+    <script src="assets/js/content.js"></script>
+    <script src="assets/js/admin.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Aydın dijital pazarlama, SEO, sosyal medya ve e-ticaret rehberleri. OSLOMEDYA blog'da uzman içgörüleri ve pratik ipuçları." />
+    <meta name="keywords" content="Aydın dijital pazarlama, Aydın SEO, Aydın sosyal medya, Aydın e-ticaret, dijital ajans blog" />
+    <title>Blog | OSLOMEDYA - Aydın Dijital Pazarlama Rehberleri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-wrapper navbar">
+        <a class="brand" href="index.html">
+          <img src="assets/img/oslo-logo.svg" alt="OSLOMEDYA" class="brand-logo" />
+          <span>OSLOMEDYA</span>
+        </a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html">ANASAYFA</a></li>
+            <li><a href="hizmetler.html">HİZMETLER</a></li>
+            <li><a href="referanslar.html">REFERANSLAR</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+            <li><a href="iletisim.html">İLETİŞİM</a></li>
+          </ul>
+        </nav>
+        <a class="primary-btn" data-teklif-link target="_blank">TEKLİF AL</a>
+      </div>
+    </header>
+
+    <main class="site-wrapper">
+      <section class="hero" data-reveal>
+        <div class="hero-content">
+          <p class="eyebrow">İÇGÖRÜ MERKEZİ</p>
+          <h1>Blog Arşivi</h1>
+          <p>
+            Pazarlama trendleri, performans ipuçları, e-ticaret rehberi ve
+            teknoloji makaleleri.
+          </p>
+        </div>
+        <div class="hero-visual">
+          <div class="blob-one"></div>
+          <div class="blob-two"></div>
+        </div>
+      </section>
+
+      <section data-reveal>
+        <div class="blog-controls">
+          <input
+            type="search"
+            placeholder="Kelime ara..."
+            data-blog-search
+            aria-label="Blog araması"
+          />
+          <select data-blog-filter aria-label="Kategori filtresi"></select>
+        </div>
+        <div class="blog-archive" data-blog-archive></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="site-wrapper footer-content">
+        <div class="brand">
+          <img src="assets/img/oslo-logo.svg" alt="Omega" class="brand-logo" />
+          <span>OSLOMEDYA</span>
+        </div>
+        <ul>
+          <li><a href="hizmetler.html">Hizmetler</a></li>
+          <li><a href="referanslar.html">Referanslar</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="iletisim.html">İletişim</a></li>
+        </ul>
+        <div class="social-icons">
+          <a href="#"><i class="ph ph-instagram-logo"></i></a>
+          <a href="#"><i class="ph ph-linkedin-logo"></i></a>
+          <a href="#"><i class="ph ph-behance-logo"></i></a>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top: 16px; color: var(--muted);">
+        © <span id="year"></span> OSLOMEDYA. Tüm hakları saklıdır.
+      </p>
+    </footer>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <script src="assets/js/content.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Aydın web tasarım, Aydın Google Ads, Aydın sosyal medya yönetimi, Aydın e-ticaret çözümleri. OSLOMEDYA ile dijital hizmetlerinizi keşfedin." />
+    <meta name="keywords" content="Aydın web tasarım, Aydın Google Ads, Aydın sosyal medya, Aydın e-ticaret, Aydın SEO, Aydın dijital ajans hizmetleri" />
+    <title>Hizmetler | OSLOMEDYA - Aydın Dijital Ajans Hizmetleri</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-wrapper navbar">
+        <a class="brand" href="index.html">
+          <img src="assets/img/oslo-logo.svg" alt="OSLOMEDYA" class="brand-logo" />
+          <span>OSLOMEDYA</span>
+        </a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="index.html">ANASAYFA</a></li>
+            <li><a href="hizmetler.html">HİZMETLER</a></li>
+            <li><a href="referanslar.html">REFERANSLAR</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+            <li><a href="iletisim.html">İLETİŞİM</a></li>
+          </ul>
+        </nav>
+        <a class="primary-btn" data-teklif-link target="_blank">TEKLİF AL</a>
+      </div>
+    </header>
+
+    <main class="site-wrapper">
+      <section class="hero" data-reveal>
+        <div class="hero-content">
+          <p class="eyebrow">SERVİS KATALOĞU</p>
+          <h1>Hizmetler & Altyapı</h1>
+          <p>
+            Digital-first strateji, kreatif üretim, medya planlama ve yazılım
+            ekiplerimizle tek çatı altında uçtan uca çözüm sunuyoruz.
+          </p>
+          <div class="hero-cta">
+            <a class="primary-btn" data-teklif-link target="_blank">WhatsApp'tan Teklif Al</a>
+            <a class="ghost-btn" href="#altyapi">Altyapı Hizmetleri</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="blob-one"></div>
+          <div class="blob-two"></div>
+          <div class="hero-card">
+            <div class="hero-card__logo">
+              <img src="assets/img/oslo-logo.svg" alt="OSLOMEDYA Omega" />
+              <div>
+                <p class="hero-card__label">OSLOMEDYA</p>
+                <p class="hero-card__subtitle">Web & Software Solutions</p>
+              </div>
+            </div>
+            <p class="hero-card__slogan">Aydın'ın güvenilir dijital ajansı</p>
+            <div class="hero-content-text text-center small-text">
+                <h1 class="page-title">Tüm Dijital Hizmetler Tek Çatı Altında</h2>
+                <p class="page-subtitle">İşletmenizin ihtiyaç duyduğu Web Tasarım, SEO ve Sosyal Medya çözümleri burada.</p>
+            </div>
+            <ul class="hero-content-list">
+                </ul>
+            <div class="hero-card__contact">
+                </div>
+          
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section data-reveal>
+        <h2 class="section-title">Ana Hizmetler</h2>
+        <div class="service-grid" data-services></div>
+      </section>
+
+      <section data-reveal>
+        <div data-service-detail></div>
+      </section>
+
+      <section id="altyapi" data-reveal>
+        <h2 class="section-title" data-altyapi-headline>Altyapı Hizmetleri</h2>
+        <div class="infra-grid" data-altyapi></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="site-wrapper footer-content">
+        <div class="brand">
+          <img src="assets/img/oslo-logo.svg" alt="Omega" class="brand-logo" />
+          <span>OSLOMEDYA</span>
+        </div>
+        <ul>
+          <li><a href="hizmetler.html">Hizmetler</a></li>
+          <li><a href="referanslar.html">Referanslar</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="iletisim.html">İletişim</a></li>
+        </ul>
+        <div class="social-icons">
+          <a href="#"><i class="ph ph-instagram-logo"></i></a>
+          <a href="#"><i class="ph ph-linkedin-logo"></i></a>
+          <a href="#"><i class="ph ph-behance-logo"></i></a>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top: 16px; color: var(--muted);">
+        © <span id="year"></span> OSLOMEDYA. Tüm hakları saklıdır.
+      </p>
+    </footer>
+
+    <div class="modal" data-service-modal>
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <h3>Servis Başlığı</h3>
+        <p>Servis açıklaması</p>
+        <ul></ul>
+        <div style="margin-top: 16px; text-align: right;">
+          <button class="ghost-btn">Kapat</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <script src="assets/js/content.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
+
