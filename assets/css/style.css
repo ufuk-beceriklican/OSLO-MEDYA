@@ -810,6 +810,12 @@ footer ul {
     align-items: center;
     padding: 16px 0;
     flex-wrap: wrap;
+
+  [data-reveal],
+  [data-reveal].visible {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important; /* Ek bir güvenlik için */
   }
 
   /* Remove nav wrapper from flow to prevent spacing issues */
@@ -1036,4 +1042,5 @@ footer ul {
 @keyframes menuSlide {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
+}
 }
