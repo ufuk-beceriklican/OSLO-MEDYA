@@ -353,3 +353,21 @@ const init = () => {
 };
 
 document.addEventListener('DOMContentLoaded', init);
+window.addEventListener('pageshow', function (event) {
+    
+    if (event.persisted) {
+        
+        // 1. body'nin opaklığını anında 1 yap:
+        document.body.style.opacity = '1';
+        
+        // 2. body'e .page-loaded sınıfını ekleyerek CSS geçişini zorla:
+        document.body.classList.add('page-loaded');
+
+        // 3. Animasyonla yüklenen elemanları da görünür yap.
+        document.querySelectorAll('[data-reveal]').forEach(el => {
+            el.classList.add('visible');
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        });
+    }
+});
