@@ -1,0 +1,191 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../ui/Icon.astro';
+import { services } from '../../data/services';
+import { serviceImages } from '../../data/service-images';
+---
+
+<ul class="svc" role="list" data-service-list>
+  {
+    services.map((service) => (
+      <li class="svc__item" data-reveal>
+        <a class="svc__link" href={`/hizmetler/${service.slug}`} data-service={service.slug}>
+          <span class="svc__title">{service.title}</span>
+          <span class="svc__tagline">{service.tagline}</span>
+          <Image
+            class="svc__thumb"
+            src={serviceImages[service.slug]}
+            alt=""
+            width={144}
+            height={144}
+            format="webp"
+            loading="lazy"
+          />
+          <span class="svc__arrow" aria-hidden="true">
+            <Icon name="arrow-up-right" size={26} />
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<!-- Masaüstünde imleci izleyen nesne önizlemesi (dekoratif) -->
+<div class="svc-preview" data-service-preview aria-hidden="true">
+  {
+    services.map((service) => (
+      <Image
+        class="svc-preview__img"
+        data-preview={service.slug}
+        src={serviceImages[service.slug]}
+        alt=""
+        width={544}
+        height={544}
+        format="webp"
+        loading="lazy"
+      />
+    ))
+  }
+</div>
+
+<style>
+  .svc {
+    list-style: none;
+    padding: 0;
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+
+  .svc__item {
+    border-top: 1px solid var(--hairline-strong);
+  }
+
+  .svc__link {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'title thumb'
+      'tagline thumb';
+    gap: 0.5rem 1.25rem;
+    align-items: center;
+    padding-block: clamp(1.25rem, 2.4vw, 2.25rem);
+    transition: opacity var(--dur-medium) var(--ease-out);
+  }
+
+  .svc__title {
+    grid-area: title;
+    font-family: var(--font-display);
+    font-size: var(--fs-4);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    transition: transform var(--dur-medium) var(--ease-out);
+  }
+
+  .svc__tagline {
+    grid-area: tagline;
+    max-width: 34rem;
+    color: var(--text-2);
+  }
+
+  .svc__thumb {
+    grid-area: thumb;
+    width: 4.5rem;
+    height: 4.5rem;
+    object-fit: contain;
+  }
+
+  /* Mobilde satırın tamamı dokunulabilir; ok yalnızca masaüstünde görünür. */
+  .svc__arrow {
+    grid-area: arrow;
+    display: none;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--r-pill);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .svc-preview {
+    display: none;
+  }
+
+  @media (min-width: 56rem) {
+    .svc__link {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-areas: none;
+      gap: 0 var(--col-gap);
+    }
+
+    .svc__title {
+      grid-area: auto;
+      grid-column: 1 / 8;
+    }
+
+    .svc__tagline {
+      grid-area: auto;
+      grid-column: 8 / 12;
+    }
+
+    .svc__arrow {
+      display: inline-grid;
+      grid-area: auto;
+      grid-column: 12 / -1;
+      justify-self: end;
+    }
+
+    .svc__thumb {
+      display: none;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    /* Üzerine gelinen satır öne çıkar, diğerleri geri çekilir */
+    .svc:has(.svc__link:hover) .svc__link:not(:hover),
+    .svc:has(.svc__link:focus-visible) .svc__link:not(:focus-visible) {
+      opacity: 0.4;
+    }
+
+    .svc__link:hover .svc__title,
+    .svc__link:focus-visible .svc__title {
+      transform: translateX(0.75rem);
+    }
+
+    .svc__link:hover .svc__arrow,
+    .svc__link:focus-visible .svc__arrow {
+      background: var(--aurora);
+      border-color: transparent;
+      transform: rotate(45deg);
+    }
+
+    .svc-preview {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 30;
+      display: block;
+      width: 17rem;
+      aspect-ratio: 1;
+      pointer-events: none;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .svc-preview__img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity var(--dur-fast) var(--ease-out);
+    }
+
+    .svc-preview__img[data-active] {
+      opacity: 1;
+    }
+  }
+</style>

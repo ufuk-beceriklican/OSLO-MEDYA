@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/sections/PageHeader.astro';
+import CategoryNav from '../../../components/sections/CategoryNav.astro';
+import PostRow from '../../../components/sections/PostRow.astro';
+import { categorySlugs, getPosts, type Category } from '../../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const available = [...new Set(posts.map((post) => post.data.category))];
+  return available.map((category) => ({
+    params: { kategori: categorySlugs[category] },
+    props: { category, available, posts: posts.filter((post) => post.data.category === category) },
+  }));
+}
+
+const { category, available, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`${category} yazıları`}
+  description={`${category} başlığı altındaki Oslo Medya blog yazıları: pratik rehberler ve ipuçları.`}
+>
+  <PageHeader
+    title={category}
+    lead={`${category} üzerine pratik rehberler ve ipuçları.`}
+    crumbs={[
+      { name: 'Blog', path: '/blog' },
+      { name: category, path: `/blog/kategori/${categorySlugs[category as Category]}` },
+    ]}
+  />
+  <section class="section section--after-header">
+    <div class="container">
+      <CategoryNav available={available} active={category} />
+      <ul class="posts" role="list">
+        {posts.map((post) => <PostRow post={post} excerpt level={2} />)}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .posts {
+    list-style: none;
+    padding: 0;
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+</style>

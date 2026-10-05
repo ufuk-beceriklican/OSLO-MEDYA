@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/sections/PageHeader.astro';
+import ServiceList from '../../components/sections/ServiceList.astro';
+import Infrastructure from '../../components/sections/Infrastructure.astro';
+---
+
+<BaseLayout
+  title="Hizmetler"
+  description="Web tasarım ve SEO, internet reklamları, sosyal medya yönetimi, e-ticaret, özel yazılım ile Google Business ve harita optimizasyonu: tüm dijital hizmetler tek çatı altında."
+>
+  <PageHeader
+    title="Tüm dijital hizmetler tek çatı altında"
+    lead="Web tasarım, SEO ve sosyal medyadan reklam yönetimi ile özel yazılıma kadar işletmenizin ihtiyaç duyduğu çözümler burada."
+    crumbs={[{ name: 'Hizmetler', path: '/hizmetler' }]}
+  />
+  <section class="section section--after-header">
+    <div class="container">
+      <ServiceList />
+    </div>
+  </section>
+  <Infrastructure />
+</BaseLayout>

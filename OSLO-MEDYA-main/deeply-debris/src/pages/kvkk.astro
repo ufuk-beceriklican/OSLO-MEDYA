@@ -1,0 +1,81 @@
+---
+// Bu metin standart bir aydınlatma taslağıdır. Yayımlamadan önce hukuki incelemeden geçirilmeli,
+// veri sorumlusunun ticari unvanı/adres bilgileri ile kullanılan üçüncü taraf hizmetler (analitik, barındırma vb.) eklenmelidir.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/sections/PageHeader.astro';
+import { site } from '../data/site';
+import '../styles/prose.css';
+---
+
+<BaseLayout
+  title="KVKK aydınlatma metni"
+  description="Oslo Medya olarak iletişim formu ve WhatsApp üzerinden paylaştığınız kişisel verileri hangi amaçla, hangi hukuki sebeplerle işlediğimizi ve haklarınızı açıklıyoruz."
+  cta={false}
+>
+  <PageHeader
+    title="KVKK aydınlatma metni"
+    lead="6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında kişisel verilerinizin nasıl işlendiğini açıklıyoruz."
+    crumbs={[{ name: 'KVKK aydınlatma metni', path: '/kvkk' }]}
+  />
+
+  <section class="section section--after-header">
+    <div class="container prose-grid">
+      <div class="prose">
+        <h2>Veri sorumlusu</h2>
+        <p>
+          {site.name} ("{site.legalName}") olarak, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca veri sorumlusu sıfatıyla kişisel verilerinizi aşağıda açıklanan kapsamda işliyoruz.
+          İletişim: <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>, <a href={site.contact.phoneHref}>{site.contact.phone}</a>, {site.contact.address}.
+        </p>
+
+        <h2>İşlenen kişisel veriler</h2>
+        <p>
+          İletişim formu, WhatsApp, telefon veya e-posta aracılığıyla bizimle paylaştığınız ad soyad, telefon numarası, e-posta adresi, şirket veya marka adı ve mesaj içeriği.
+        </p>
+
+        <h2>İşleme amaçları</h2>
+        <ul>
+          <li>Bilgi ve teklif taleplerinizi yanıtlamak ve sizinle iletişim kurmak,</li>
+          <li>Talep ettiğiniz hizmete ilişkin ön görüşme ve teklif hazırlığı yapmak,</li>
+          <li>Yasal yükümlülüklerimizi yerine getirmek.</li>
+        </ul>
+
+        <h2>Hukuki sebepler</h2>
+        <p>
+          Verileriniz KVKK'nın 5. maddesinin ikinci fıkrası kapsamında; bir sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması, bir hakkın tesisi, kullanılması veya korunması için veri işlemenin zorunlu olması ve ilgili kişinin temel hak ve özgürlüklerine zarar vermemek kaydıyla meşru menfaatlerimiz sebeplerine ve iletişim formundaki onayınız çerçevesinde açık rızanıza dayanılarak işlenir.
+        </p>
+
+        <h2>Toplama yöntemi</h2>
+        <p>Verileriniz iletişim formu, WhatsApp, telefon ve e-posta gibi elektronik ortamlar üzerinden, sizin paylaşmanızla toplanır.</p>
+
+        <h2>Aktarım</h2>
+        <p>
+          Kişisel verileriniz, yasal zorunluluklar dışında üçüncü kişilerle paylaşılmaz. WhatsApp üzerinden yazmanız halinde mesajınız WhatsApp hizmeti üzerinden iletilir ve bu iletişim ilgili hizmetin kendi gizlilik koşullarına da tabidir.
+        </p>
+
+        <h2>Saklama süresi</h2>
+        <p>
+          Verileriniz, talebinizin sonuçlanması ve ilgili yasal sürelerin sonuna kadar saklanır; sürenin bitiminde silinir, yok edilir veya anonim hale getirilir.
+        </p>
+
+        <h2>Haklarınız</h2>
+        <p>KVKK'nın 11. maddesi uyarınca şu haklara sahipsiniz:</p>
+        <ul>
+          <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme,</li>
+          <li>İşlenmişse buna ilişkin bilgi talep etme,</li>
+          <li>İşlenme amacını ve amaca uygun kullanılıp kullanılmadığını öğrenme,</li>
+          <li>Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,</li>
+          <li>Eksik veya yanlış işlenmişse düzeltilmesini isteme,</li>
+          <li>Kanun çerçevesinde silinmesini veya yok edilmesini isteme,</li>
+          <li>Düzeltme, silme ve yok edilme işlemlerinin aktarıldığı üçüncü kişilere bildirilmesini isteme,</li>
+          <li>İşlenen verilerin otomatik sistemlerle analiz edilmesi sonucu aleyhinize bir sonuç çıkmasına itiraz etme,</li>
+          <li>Kanuna aykırı işlenmesi sebebiyle zarara uğramanız halinde zararın giderilmesini talep etme.</li>
+        </ul>
+
+        <h2>Başvuru</h2>
+        <p>
+          Haklarınıza ilişkin taleplerinizi <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> adresine iletebilirsiniz. Başvurunuz, niteliğine göre en geç otuz gün içinde sonuçlandırılır.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

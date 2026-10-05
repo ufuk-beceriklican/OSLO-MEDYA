@@ -1,0 +1,57 @@
+---
+import { site } from '../data/site';
+import { organizationLd } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  noindex?: boolean;
+  jsonLd?: object | object[];
+}
+
+const {
+  title,
+  description,
+  image = '/og-default.jpg',
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const canonical = new URL(path, Astro.site);
+const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
+const ogImage = new URL(image, Astro.site);
+const extra = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const graphs = [...(path === '/' ? [organizationLd()] : []), ...extra];
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+{publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+{graphs.map((graph) => <script type="application/ld+json" set:html={JSON.stringify(graph)} />)}

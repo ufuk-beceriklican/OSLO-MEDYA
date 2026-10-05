@@ -1,0 +1,465 @@
+---
+import Logo from '../ui/Logo.astro';
+import Icon from '../ui/Icon.astro';
+import Button from '../ui/Button.astro';
+import { site } from '../../data/site';
+import { services } from '../../data/services';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+---
+
+<header class="site-header" data-site-header transition:persist="site-header" transition:animate="none">
+  <div class="site-header__bar">
+    <a class="site-header__brand" href="/" aria-label="Oslo Medya, ana sayfa" data-nav-link>
+      <Logo />
+    </a>
+
+    <nav class="site-nav" aria-label="Ana menü">
+      <ul role="list">
+        <li class="site-nav__item" data-nav-item>
+          <a class="site-nav__link" href="/hizmetler" data-nav-link aria-current={isCurrent('/hizmetler') ? 'page' : undefined}>
+            Hizmetler
+          </a>
+          <button
+            type="button"
+            class="site-nav__toggle"
+            aria-label="Hizmetler alt menüsü"
+            aria-expanded="false"
+            aria-controls="nav-services"
+            data-nav-toggle
+          >
+            <Icon name="caret-down" size={16} />
+          </button>
+          <div class="nav-panel" id="nav-services" data-nav-panel>
+            <ul class="nav-panel__grid" role="list">
+              {
+                services.map((service) => (
+                  <li>
+                    <a class="nav-panel__link" href={`/hizmetler/${service.slug}`} data-nav-link>
+                      <Icon name={service.icon} size={26} />
+                      <span>
+                        <strong>{service.title}</strong>
+                        <small>{service.tagline}</small>
+                      </span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            <a class="nav-panel__all" href="/hizmetler" data-nav-link>
+              Tüm hizmetler
+              <Icon name="arrow-right" size={18} />
+            </a>
+          </div>
+        </li>
+        {
+          site.nav
+            .filter((item) => item.href !== '/hizmetler')
+            .map((item) => (
+              <li class="site-nav__item">
+                <a
+                  class="site-nav__link"
+                  href={item.href}
+                  data-nav-link
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <Button href={site.contact.whatsapp} external class="site-header__cta">Teklif al</Button>
+      <button
+        type="button"
+        class="menu-toggle"
+        aria-label="Menüyü aç"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        data-menu-open
+      >
+        <Icon name="list" size={26} />
+      </button>
+    </div>
+  </div>
+
+  <dialog class="mobile-menu" id="mobile-menu" aria-label="Menü" data-mobile-menu>
+    <div class="mobile-menu__head">
+      <a href="/" aria-label="Oslo Medya, ana sayfa"><Logo /></a>
+      <button type="button" class="menu-toggle" aria-label="Menüyü kapat" data-menu-close>
+        <Icon name="x" size={26} />
+      </button>
+    </div>
+    <nav class="mobile-menu__nav" aria-label="Mobil menü">
+      <ul role="list">
+        <li style="--i: 0">
+          <a class="mobile-menu__link" href="/hizmetler">Hizmetler</a>
+          <ul class="mobile-menu__sub" role="list">
+            {
+              services.map((service) => (
+                <li>
+                  <a href={`/hizmetler/${service.slug}`}>{service.title}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </li>
+        <li style="--i: 1"><a class="mobile-menu__link" href="/blog">Blog</a></li>
+        <li style="--i: 2"><a class="mobile-menu__link" href="/iletisim">İletişim</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-menu__foot" style="--i: 3">
+      <Button href={site.contact.whatsapp} external size="lg">Teklif al</Button>
+      <a class="mobile-menu__phone" href={site.contact.phoneHref}>{site.contact.phone}</a>
+    </div>
+  </dialog>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: var(--header-top);
+    left: 0;
+    right: 0;
+    z-index: var(--z-header);
+    pointer-events: none;
+  }
+
+  .site-header__bar {
+    position: relative;
+    pointer-events: auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    /* Çubuk içerikten 1rem geniştir: iç dolgu sayesinde logo ve düğme içerik kenarıyla hizalanır. */
+    width: min(100% - 2 * (var(--gutter) - 1rem), calc(var(--container) + 2rem));
+    height: var(--header-h);
+    margin-inline: auto;
+    padding-inline: 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--r-md);
+    transition:
+      background-color var(--dur-medium) var(--ease-out),
+      border-color var(--dur-medium) var(--ease-out),
+      box-shadow var(--dur-medium) var(--ease-out);
+  }
+
+  /* Bulanıklık işlevsel: altından içerik geçerken okunabilirliği korur. */
+  .site-header[data-scrolled] .site-header__bar {
+    background: rgb(245 247 250 / 0.9);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    backdrop-filter: blur(16px) saturate(1.3);
+    border-color: var(--hairline);
+    box-shadow: var(--shadow-float);
+  }
+
+  .site-header__brand {
+    justify-self: start;
+    border-radius: var(--r-xs);
+  }
+
+  .site-header__actions {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .site-nav {
+    display: none;
+  }
+
+  .site-nav > ul {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .site-nav__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .site-nav__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding-inline: 0.875rem;
+    border-radius: var(--r-pill);
+    font-weight: 500;
+    color: var(--text-2);
+    transition:
+      color var(--dur-quick) var(--ease-out),
+      background-color var(--dur-quick) var(--ease-out);
+  }
+
+  .site-nav__link[aria-current='page'] {
+    color: var(--text);
+    background: var(--mist);
+  }
+
+  .site-nav__toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 2.5rem;
+    margin-left: -0.75rem;
+    border-radius: var(--r-pill);
+    color: var(--text-2);
+    transition:
+      color var(--dur-quick) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .site-nav__toggle[aria-expanded='true'] {
+    color: var(--text);
+    transform: rotate(180deg);
+  }
+
+  @media (hover: hover) {
+    .site-nav__link:hover,
+    .site-nav__toggle:hover {
+      color: var(--text);
+    }
+
+    .site-nav__link:hover {
+      background: var(--mist);
+    }
+  }
+
+  /* Hizmetler paneli: fare hover'ı ile ya da düğmeyle (klavye/dokunma, JS ile [data-open]) açılır.
+     :focus-within kullanılmaz; aksi halde Esc ile kapanan panel odak düğmede kaldığı için yeniden açılırdı. */
+  .nav-panel {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    width: min(46rem, 100%);
+    padding: 0.5rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    background: var(--paper);
+    box-shadow: var(--shadow-float);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -6px) scale(0.985);
+    transform-origin: top center;
+    transition:
+      opacity var(--dur-quick) var(--ease-out),
+      transform var(--dur-quick) var(--ease-out),
+      visibility 0s linear var(--dur-quick);
+  }
+
+  /* Fare ile tetikleyiciden panele geçerken kapanmaması için görünmez köprü */
+  .nav-panel::before {
+    content: '';
+    position: absolute;
+    inset: -0.75rem 0 auto 0;
+    height: 0.75rem;
+  }
+
+  .site-nav__item:hover .nav-panel,
+  .nav-panel[data-open] {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0) scale(1);
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out),
+      visibility 0s;
+  }
+
+  .nav-panel__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .nav-panel__link {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.875rem;
+    align-items: start;
+    padding: 0.75rem 0.875rem;
+    border-radius: var(--r-xs);
+    transition: background-color var(--dur-quick) var(--ease-out);
+  }
+
+  .nav-panel__link strong {
+    display: block;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .nav-panel__link small {
+    display: block;
+    margin-top: 0.125rem;
+    font-size: var(--fs-0);
+    line-height: 1.4;
+    color: var(--text-3);
+  }
+
+  .nav-panel__all {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 0.25rem 0.25rem;
+    padding: 0.75rem 0.625rem 0.25rem;
+    border-top: 1px solid var(--hairline);
+    font-weight: 600;
+  }
+
+  @media (hover: hover) {
+    .nav-panel__link:hover {
+      background: var(--mist);
+    }
+  }
+
+  .menu-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--r-pill);
+    color: var(--text);
+  }
+
+  .site-header__cta {
+    display: none;
+  }
+
+  @media (min-width: 56rem) {
+    .site-header__bar {
+      grid-template-columns: 1fr auto 1fr;
+    }
+
+    .site-nav {
+      display: block;
+    }
+
+    .site-header__cta {
+      display: inline-flex;
+    }
+
+    .site-header__actions .menu-toggle {
+      display: none;
+    }
+  }
+
+  /* Mobil menü: tam ekran <dialog>; odak tuzağı ve Esc tarayıcıdan gelir. */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-menu);
+    /* Başlık kabı pointer-events: none olduğundan menü bunu miras almasın */
+    pointer-events: auto;
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 100dvh;
+    margin: 0;
+    padding: var(--header-top) var(--gutter) 2rem;
+    background: var(--snow);
+    color: var(--ink);
+    opacity: 0;
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      display var(--dur-fast) allow-discrete,
+      overlay var(--dur-fast) allow-discrete;
+  }
+
+  .mobile-menu[open] {
+    display: flex;
+    opacity: 1;
+  }
+
+  @starting-style {
+    .mobile-menu[open] {
+      opacity: 0;
+    }
+  }
+
+  .mobile-menu__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+  }
+
+  .mobile-menu__nav {
+    flex: 1;
+    overflow-y: auto;
+    padding-block: 2rem;
+  }
+
+  .mobile-menu__nav ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .mobile-menu__nav > ul > li,
+  .mobile-menu__foot {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * var(--dur-stagger) + var(--dur-micro));
+  }
+
+  .mobile-menu[open] .mobile-menu__nav > ul > li,
+  .mobile-menu[open] .mobile-menu__foot {
+    opacity: 1;
+    transform: none;
+  }
+
+  @starting-style {
+    .mobile-menu[open] .mobile-menu__nav > ul > li,
+    .mobile-menu[open] .mobile-menu__foot {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  .mobile-menu__link {
+    display: block;
+    padding-block: 0.5rem;
+    font-family: var(--font-display);
+    font-size: var(--fs-5);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .mobile-menu__sub {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25rem 1rem;
+    margin: 0.5rem 0 1.5rem;
+  }
+
+  .mobile-menu__sub a {
+    display: block;
+    padding-block: 0.5rem;
+    font-size: var(--fs-0);
+    color: var(--text-2);
+  }
+
+  .mobile-menu__foot {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+  }
+
+  .mobile-menu__phone {
+    font-weight: 500;
+    color: var(--text-2);
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  lead?: string;
+}
+const { id, title, lead } = Astro.props;
+---
+
+<div class="section-head">
+  <h2 id={id} data-reveal>{title}</h2>
+  {lead && <p class="section-head__lead" data-reveal>{lead}</p>}
+</div>
+
+<style>
+  .section-head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .section-head__lead {
+    font-size: var(--fs-2);
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+
+  @media (min-width: 56rem) {
+    .section-head {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--col-gap);
+      align-items: end;
+    }
+
+    .section-head h2 {
+      grid-column: 1 / 8;
+    }
+
+    .section-head__lead {
+      grid-column: 8 / -1;
+    }
+  }
+</style>

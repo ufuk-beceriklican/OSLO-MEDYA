@@ -1,0 +1,11 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="omegaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3EE7FF" />
+      <stop offset="45%" stop-color="#4865FF" />
+      <stop offset="100%" stop-color="#FF3DD9" />
+    </linearGradient>
+  </defs>
+  <path d="M30 20C17 20 8 33 8 50C8 67 17 80 30 80H38V100H18V112H102V100H82V80H90C103 80 112 67 112 50C112 33 103 20 90 20H30Z" stroke="#101020" stroke-width="6" />
+  <path d="M30 14C14 14 4 31 4 50C4 69 14 86 30 86H32V106H16V116H104V106H88V86H90C106 86 116 69 116 50C116 31 106 14 90 14H30Z" fill="url(#omegaGrad)" />
+</svg>

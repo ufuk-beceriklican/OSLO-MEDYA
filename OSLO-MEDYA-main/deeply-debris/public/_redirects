@@ -1,0 +1,9 @@
+# Eski demo adresleri → yeni adresler (Netlify ve Cloudflare Pages bu dosyayı okur; diğer barındırmalarda yok sayılır).
+# Apache için public/.htaccess, Vercel için README'deki vercel.json örneğine bakın.
+/index.html        /          301
+/hizmetler.html    /hizmetler 301
+/blog.html         /blog      301
+/iletisim.html     /iletisim  301
+/referanslar       /          301
+/referanslar.html  /          301
+/admin.html        /          301

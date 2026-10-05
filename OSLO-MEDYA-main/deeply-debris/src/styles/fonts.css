@@ -1,0 +1,46 @@
+/*
+  Yazı tipleri: Bricolage Grotesque (display) ve Hanken Grotesk (gövde), ikisi de SIL Open Font License (bkz. src/assets/fonts/OFL-*.txt).
+  Kaynak dosyalar Fontsource paketlerinden alınıp yalnızca sitenin kullandığı karakterlere (Latin + Türkçe harfler, yaygın noktalama)
+  ve kullandığımız ağırlıklara (400–700) daraltıldı: toplam ≈68 KB (orijinali ≈158 KB).
+  Listede olmayan bir karakter sistem fontundan gelir; gerekirse aralığa eklenip dosyalar yeniden üretilmelidir (DESIGN.md → "Yazı tiplerini yeniden üretme").
+*/
+
+@font-face {
+  font-family: 'Bricolage Grotesque Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  src: url('../assets/fonts/bricolage-latin.woff2') format('woff2-variations');
+  unicode-range:
+    U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AE, U+00B0, U+00B7, U+00BB, U+00C2, U+00C7, U+00CE, U+00D6, U+00D7, U+00DB, U+00DC,
+    U+00E2, U+00E7, U+00EE, U+00F6, U+00FB, U+00FC, U+0131, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20BA;
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  src: url('../assets/fonts/bricolage-ext.woff2') format('woff2-variations');
+  unicode-range: U+011E-011F, U+0130, U+015E-015F;
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  src: url('../assets/fonts/hanken-latin.woff2') format('woff2-variations');
+  unicode-range:
+    U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AE, U+00B0, U+00B7, U+00BB, U+00C2, U+00C7, U+00CE, U+00D6, U+00D7, U+00DB, U+00DC,
+    U+00E2, U+00E7, U+00EE, U+00F6, U+00FB, U+00FC, U+0131, U+2013-2014, U+2018-201D, U+2022, U+2026, U+20BA;
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  src: url('../assets/fonts/hanken-ext.woff2') format('woff2-variations');
+  unicode-range: U+011E-011F, U+0130, U+015E-015F;
+}

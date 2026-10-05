@@ -1,0 +1,91 @@
+---
+import { breadcrumbLd } from '../../lib/seo';
+
+interface Crumb {
+  name: string;
+  path: string;
+}
+
+interface Props {
+  title: string;
+  lead?: string;
+  /** Sayfa yolu; "Ana sayfa" otomatik eklenir. */
+  crumbs?: Crumb[];
+}
+
+const { title, lead, crumbs = [] } = Astro.props;
+const trail: Crumb[] = [{ name: 'Ana sayfa', path: '/' }, ...crumbs];
+---
+
+<header class="page-header">
+  <div class="container">
+    {
+      crumbs.length > 0 && (
+        <nav class="page-header__crumbs" aria-label="Sayfa yolu">
+          <ol role="list">
+            {trail.map((crumb, index) => (
+              <li>
+                {index < trail.length - 1 ? <a href={crumb.path}>{crumb.name}</a> : <span aria-current="page">{crumb.name}</span>}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    <h1 data-reveal>{title}</h1>
+    {lead && <p class="page-header__lead" data-reveal>{lead}</p>}
+    <slot />
+  </div>
+  {crumbs.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd(trail))} />}
+</header>
+
+<style>
+  .page-header {
+    padding-top: calc(var(--header-h) + var(--header-top) + clamp(3rem, 8vw, 7rem));
+    padding-bottom: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .page-header h1 {
+    max-width: 18ch;
+    font-size: var(--fs-5);
+    line-height: 1;
+  }
+
+  .page-header__lead {
+    margin-top: 1.5rem;
+    max-width: 38rem;
+    font-size: var(--fs-2);
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+
+  .page-header__crumbs {
+    margin-bottom: 1.5rem;
+    font-size: var(--fs-0);
+    color: var(--text-3);
+  }
+
+  .page-header__crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .page-header__crumbs li:not(:last-child)::after {
+    content: '/';
+    margin-left: 0.5rem;
+  }
+
+  .page-header__crumbs a {
+    text-decoration: underline;
+    text-decoration-color: var(--hairline-strong);
+  }
+
+  @media (hover: hover) {
+    .page-header__crumbs a:hover {
+      color: var(--text);
+    }
+  }
+</style>

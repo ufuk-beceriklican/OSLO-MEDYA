@@ -1,0 +1,105 @@
+/* Uzun metin tipografisi: blog yazıları ve KVKK sayfası. Ölçü 44rem ≈ 66–72 karakter. */
+/* Masaüstünde gövde 12 sütunlu ızgaranın 3–10. sütunlarına oturur (blog listesindeki başlık sütunuyla aynı çizgi). */
+.prose-grid {
+  display: grid;
+}
+
+@media (min-width: 56rem) {
+  .prose-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+  }
+
+  .prose-grid > .prose {
+    grid-column: 3 / 11;
+  }
+}
+
+.prose {
+  max-width: 44rem;
+  font-size: var(--fs-2);
+  line-height: 1.72;
+  color: var(--text);
+}
+
+.prose > * + * {
+  margin-top: 1.25em;
+}
+
+.prose p {
+  max-width: none;
+}
+
+.prose h2 {
+  margin-top: 2.4em;
+  font-size: clamp(1.625rem, 1.35rem + 1.1vw, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.prose h3 {
+  margin-top: 1.9em;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: 0.75em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li {
+  padding-left: 0.25em;
+}
+
+.prose li + li {
+  margin-top: 0.5em;
+}
+
+.prose li::marker {
+  color: var(--text-3);
+}
+
+.prose a {
+  text-decoration: underline;
+  text-decoration-color: var(--hairline-strong);
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color var(--dur-fast) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .prose a:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+.prose blockquote {
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--hairline-strong);
+  color: var(--text-2);
+}
+
+.prose hr {
+  margin-block: 2.5em;
+}
+
+.prose code {
+  padding: 0.1em 0.35em;
+  border-radius: 0.375rem;
+  background: var(--mist);
+  font-size: 0.9em;
+}

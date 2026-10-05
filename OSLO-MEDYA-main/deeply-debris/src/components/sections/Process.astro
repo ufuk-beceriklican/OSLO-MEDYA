@@ -1,0 +1,117 @@
+---
+import SectionHead from './SectionHead.astro';
+import { process } from '../../data/home';
+---
+
+<section class="section process" aria-labelledby="process-title">
+  <div class="container">
+    <SectionHead
+      id="process-title"
+      title="Nasıl çalışırız"
+      lead="Tek ekipte strateji, tasarım, yazılım ve performans: her adım bir sonrakini besler."
+    />
+    <ol class="process__list" role="list" data-process>
+      <span class="process__progress" data-process-progress aria-hidden="true"></span>
+      {
+        process.map((step, index) => (
+          <li class="process__step" data-process-step data-reveal>
+            <span class="process__num tnum">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process__list {
+    position: relative;
+    display: grid;
+    gap: 2.5rem;
+    list-style: none;
+    padding: 0 0 0 1.75rem;
+    border-left: 1px solid var(--hairline-strong);
+  }
+
+  /* İlerleme çizgisi: kaydırdıkça dolar (masaüstünde yatay, mobilde dikey) */
+  .process__progress {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 2px;
+    height: 100%;
+    background: var(--ink);
+    transform-origin: top;
+    transform: scaleY(var(--progress, 0));
+  }
+
+  .process__step {
+    position: relative;
+  }
+
+  .process__step::before {
+    content: '';
+    position: absolute;
+    top: 0.45rem;
+    left: -2.1rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 50%;
+    background: var(--snow);
+    transition:
+      background-color var(--dur-medium) var(--ease-out),
+      border-color var(--dur-medium) var(--ease-out);
+  }
+
+  .process__step[data-reached]::before {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .process__num {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: var(--fs-0);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--text-3);
+  }
+
+  .process__step h3 {
+    margin-bottom: 0.75rem;
+    font-size: var(--fs-3);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+
+  .process__step p {
+    color: var(--text-2);
+  }
+
+  @media (min-width: 56rem) {
+    .process__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2rem;
+      padding: 2rem 0 0;
+      border-left: 0;
+      border-top: 1px solid var(--hairline-strong);
+    }
+
+    .process__progress {
+      top: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      transform-origin: left;
+      transform: scaleX(var(--progress, 0));
+    }
+
+    .process__step::before {
+      top: -2.35rem;
+      left: 0;
+    }
+  }
+</style>

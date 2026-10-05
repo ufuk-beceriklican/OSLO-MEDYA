@@ -1,0 +1,121 @@
+---
+interface Props {
+  label: string;
+  name: string;
+  type?: 'text' | 'tel' | 'email' | 'url' | 'number';
+  required?: boolean;
+  multiline?: boolean;
+  rows?: number;
+  autocomplete?: string;
+  inputmode?: 'text' | 'tel' | 'email' | 'numeric';
+  hint?: string;
+}
+
+const {
+  label,
+  name,
+  type = 'text',
+  required = false,
+  multiline = false,
+  rows = 5,
+  autocomplete,
+  inputmode,
+  hint,
+} = Astro.props;
+
+const id = `field-${name}`;
+const describedBy = `${id}-error${hint ? ` ${id}-hint` : ''}`;
+---
+
+<div class="field" data-field>
+  <label for={id}>
+    {label}
+    {required ? <span aria-hidden="true"> *</span> : <span class="field__optional"> (isteğe bağlı)</span>}
+  </label>
+  {
+    multiline ? (
+      <textarea id={id} name={name} rows={rows} required={required} aria-describedby={describedBy} />
+    ) : (
+      <input
+        id={id}
+        name={name}
+        type={type}
+        required={required}
+        autocomplete={autocomplete}
+        inputmode={inputmode}
+        aria-describedby={describedBy}
+      />
+    )
+  }
+  {hint && <p class="field__hint" id={`${id}-hint`}>{hint}</p>}
+  <p class="field__error" id={`${id}-error`} data-error role="alert" hidden></p>
+</div>
+
+<style>
+  .field {
+    display: grid;
+    gap: 0.5rem;
+    /* Komşu alanda hata mesajı çıkınca bu alanın satırları esnemesin */
+    align-content: start;
+  }
+
+  label {
+    font-size: var(--fs-0);
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .field__optional {
+    font-weight: 400;
+    color: var(--text-3);
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--r-sm);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: var(--fs-1);
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 9rem;
+    line-height: 1.55;
+  }
+
+  input:hover,
+  textarea:hover {
+    border-color: var(--ink-3);
+  }
+
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgb(61 90 254 / 0.25);
+  }
+
+  input[aria-invalid='true'],
+  textarea[aria-invalid='true'] {
+    border-color: var(--danger);
+  }
+
+  .field__hint {
+    font-size: var(--fs-0);
+    color: var(--text-3);
+  }
+
+  .field__error {
+    font-size: var(--fs-0);
+    font-weight: 500;
+    color: var(--danger);
+  }
+</style>

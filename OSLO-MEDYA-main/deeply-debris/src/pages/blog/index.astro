@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/sections/PageHeader.astro';
+import CategoryNav from '../../components/sections/CategoryNav.astro';
+import PostRow from '../../components/sections/PostRow.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+const available = [...new Set(posts.map((post) => post.data.category))];
+---
+
+<BaseLayout
+  title="Blog"
+  description="Yerel SEO, Google Business, sosyal medya, e-ticaret ve dijital pazarlama üzerine pratik rehberler ve ipuçları."
+>
+  <PageHeader
+    title="Blog"
+    lead="Yerel SEO'dan e-ticarete, işinizi büyütecek pratik rehberler."
+    crumbs={[{ name: 'Blog', path: '/blog' }]}
+  />
+  <section class="section section--after-header">
+    <div class="container">
+      <CategoryNav available={available} />
+      <ul class="posts" role="list">
+        {posts.map((post) => <PostRow post={post} excerpt level={2} />)}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .posts {
+    list-style: none;
+    padding: 0;
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+</style>

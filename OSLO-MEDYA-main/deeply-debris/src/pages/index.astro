@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import SectionHead from '../components/sections/SectionHead.astro';
+import ServiceList from '../components/sections/ServiceList.astro';
+import Process from '../components/sections/Process.astro';
+import Infrastructure from '../components/sections/Infrastructure.astro';
+import PostRow from '../components/sections/PostRow.astro';
+import Button from '../components/ui/Button.astro';
+import { getPosts } from '../lib/posts';
+
+const latest = (await getPosts()).slice(0, 3);
+---
+
+<BaseLayout
+  title="Oslo Medya | Aydın web tasarım ve dijital ajans"
+  description="Aydın merkezli dijital ajans Oslo Medya: web tasarım, SEO, Google Ads, sosyal medya yönetimi, e-ticaret ve özel yazılım çözümleri."
+>
+  <Hero />
+
+  <section class="section" aria-labelledby="services-title">
+    <div class="container">
+      <SectionHead
+        id="services-title"
+        title="Hizmetler"
+        lead="Strateji, tasarım, yazılım ve performans ekiplerimizle web sitesinden reklama, e-ticaretten özel yazılıma kadar işinizi büyüten çözümler sunuyoruz."
+      />
+      <ServiceList />
+    </div>
+  </section>
+
+  <Process />
+  <Infrastructure />
+
+  {
+    latest.length > 0 && (
+      <section class="section" aria-labelledby="blog-title">
+        <div class="container">
+          <SectionHead
+            id="blog-title"
+            title="Son yazılar"
+            lead="Yerel SEO'dan e-ticarete, işinizi büyütecek pratik rehberler."
+          />
+          <ul class="posts" role="list">
+            {latest.map((post) => <PostRow post={post} />)}
+          </ul>
+          <div class="more">
+            <Button href="/blog" variant="secondary" icon="arrow-right">Tüm yazılar</Button>
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .posts {
+    list-style: none;
+    padding: 0;
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+
+  .more {
+    margin-top: 2rem;
+  }
+</style>

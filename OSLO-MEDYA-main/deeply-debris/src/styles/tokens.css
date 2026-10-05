@@ -1,0 +1,132 @@
+@layer reset, base, utilities;
+
+/*
+  Oslo Medya — tasarım token'ları. Tek kaynak: bileşenlerde ham renk, ölçü ya da süre yazılmaz.
+  Yön "Kuzey Işığı": açık zemin, mürekkep tipografi. Gradient (aurora) yalnızca üç yerde:
+  hero ışığı, birincil buton ve kapanış CTA bandı.
+*/
+
+:root {
+  color-scheme: light;
+
+  /* Zemin */
+  --snow: #f5f7fa;
+  --paper: #ffffff;
+  --mist: #ebeff4;
+  --line: rgb(11 15 20 / 0.1);
+  --line-strong: rgb(11 15 20 / 0.22);
+
+  /* Mürekkep */
+  --ink: #0b0f14;
+  --ink-2: #39424e;
+  --ink-3: #566170;
+
+  /* Gece (koyu bant) */
+  --night: #0a0e13;
+  --night-2: #141b24;
+  --on-night: #eef2f7;
+  --on-night-2: #a7b3c2;
+  --line-night: rgb(238 242 247 / 0.16);
+
+  /* Aurora */
+  --aurora-mint: #8ff0cb;
+  --aurora-sky: #7fd3f2;
+  --aurora-blue: #8fa8ff;
+  --aurora-lilac: #cdb4fb;
+  --aurora: linear-gradient(
+    105deg,
+    var(--aurora-mint) 0%,
+    var(--aurora-sky) 34%,
+    var(--aurora-blue) 68%,
+    var(--aurora-lilac) 100%
+  );
+
+  /* Durum */
+  --focus: #3d5afe;
+  --focus-night: #8ff0cb;
+  --danger: #b42318;
+  --success: #067647;
+
+  /* Bağlama göre değişen anlamsal renkler (.on-night içinde yeniden tanımlanır) */
+  --text: var(--ink);
+  --text-2: var(--ink-2);
+  --text-3: var(--ink-3);
+  --hairline: var(--line);
+  --hairline-strong: var(--line-strong);
+  --surface: var(--paper);
+  --focus-ring: var(--focus);
+
+  /* Yazı tipleri */
+  --font-display: 'Bricolage Grotesque Variable', 'Hanken Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Hanken Grotesk Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Yazı ölçeği (akışkan). Display üst sınırı 6rem. */
+  --fs-0: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --fs-1: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --fs-2: clamp(1.125rem, 1.04rem + 0.42vw, 1.3125rem);
+  --fs-3: clamp(1.375rem, 1.2rem + 0.85vw, 1.75rem);
+  --fs-4: clamp(1.75rem, 1.4rem + 1.7vw, 2.75rem);
+  --fs-5: clamp(2.25rem, 1.6rem + 3.1vw, 4rem);
+  --fs-6: clamp(2.75rem, 1.7rem + 5.1vw, 6rem);
+  --measure: 66ch;
+
+  /* Boşluk */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 6rem;
+  --section-y: clamp(4.5rem, 2.6rem + 6vw, 8rem);
+  --gutter: clamp(1.25rem, 0.6rem + 2.8vw, 3.5rem);
+  --container: 80rem;
+  /* 12 sütunlu ortak ızgara: bölüm başlıkları, listeler ve altyapı aynı sütun çizgilerini paylaşır */
+  --col-gap: clamp(1rem, 0.4rem + 2.2vw, 3rem);
+
+  /* Köşe (eş merkezli: iç yarıçap = dış yarıçap − dolgu) */
+  --r-xs: 0.5rem;
+  --r-sm: 0.75rem;
+  --r-md: 1rem;
+  --r-pill: 999px;
+
+  /* Yükseklik: yüzen katmanlar gölge, akış içi yüzeyler çizgi kullanır */
+  --shadow-float: 0 1px 2px rgb(11 15 20 / 0.05), 0 14px 36px -10px rgb(11 15 20 / 0.16);
+
+  /* Katmanlar */
+  --z-header: 50;
+  --z-menu: 60;
+  --z-skip: 100;
+
+  /* Hareket */
+  --dur-stagger: 40ms;
+  --dur-micro: 80ms;
+  --dur-quick: 150ms;
+  --dur-fast: 250ms;
+  --dur-medium: 350ms;
+  --dur-slow: 500ms;
+  --dur-hero: 900ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Düzen */
+  --header-h: 3.75rem;
+  --header-top: 0.75rem;
+}
+
+/* Koyu bant: aynı anlamsal adlar, gece renkleri */
+.on-night {
+  --text: var(--on-night);
+  --text-2: var(--on-night-2);
+  --text-3: var(--on-night-2);
+  --hairline: var(--line-night);
+  --hairline-strong: rgb(238 242 247 / 0.32);
+  --surface: var(--night-2);
+  --focus-ring: var(--focus-night);
+  color: var(--text);
+  background: var(--night);
+  color-scheme: dark;
+}

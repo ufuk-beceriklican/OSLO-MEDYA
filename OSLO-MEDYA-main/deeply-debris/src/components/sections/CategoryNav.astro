@@ -1,0 +1,70 @@
+---
+import { categories } from '../../content.config';
+import { categorySlugs, type Category } from '../../lib/posts';
+
+interface Props {
+  /** Yazısı olan kategoriler. */
+  available: Category[];
+  active?: Category;
+}
+const { available, active } = Astro.props;
+const items = categories.filter((category) => available.includes(category));
+---
+
+<nav class="chips" aria-label="Blog kategorileri">
+  <ul role="list">
+    <li><a href="/blog" aria-current={active ? undefined : 'page'}>Tümü</a></li>
+    {
+      items.map((category) => (
+        <li>
+          <a href={`/blog/kategori/${categorySlugs[category]}`} aria-current={active === category ? 'page' : undefined}>
+            {category}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .chips {
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .chips ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .chips a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding-inline: 1rem;
+    border: 1px solid var(--hairline-strong);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-0);
+    font-weight: 500;
+    color: var(--text-2);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+
+  .chips a[aria-current='page'] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--snow);
+  }
+
+  @media (hover: hover) {
+    .chips a:not([aria-current='page']):hover {
+      border-color: var(--ink);
+      color: var(--text);
+    }
+  }
+</style>

@@ -1,0 +1,187 @@
+---
+import Logo from '../ui/Logo.astro';
+import Icon from '../ui/Icon.astro';
+import { site } from '../../data/site';
+import { services } from '../../data/services';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href="/" aria-label="Oslo Medya, ana sayfa"><Logo /></a>
+      <p>Aydın merkezli dijital ajans. Web, reklam, sosyal medya ve yazılım.</p>
+      {
+        site.social.length > 0 && (
+          <ul class="footer__social" role="list">
+            {site.social.map((link) => (
+              <li>
+                <a href={link.href} aria-label={link.label} target="_blank" rel="noopener noreferrer">
+                  <Icon name={link.icon} size={22} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <nav aria-labelledby="footer-services">
+      <p class="label" id="footer-services">Hizmetler</p>
+      <ul role="list">
+        {
+          services.map((service) => (
+            <li>
+              <a href={`/hizmetler/${service.slug}`}>{service.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav aria-labelledby="footer-explore">
+      <p class="label" id="footer-explore">Keşfet</p>
+      <ul role="list">
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/iletisim">İletişim</a></li>
+        {site.legal.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <p class="label" id="footer-contact">İletişim</p>
+      <ul role="list" aria-labelledby="footer-contact">
+        <li><a href={site.contact.phoneHref}>{site.contact.phone}</a></li>
+        <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
+        <li>
+          <a href={site.contact.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </li>
+        <li class="footer__address">{site.contact.address}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer__bottom">
+    <p>© {year} {site.name}. Tüm hakları saklıdır.</p>
+    <a class="footer__top" href="#main">
+      Başa dön
+      <Icon name="arrow-up" size={18} />
+    </a>
+  </div>
+
+  <div class="footer__wordmark" aria-hidden="true">Oslo Medya</div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    overflow: clip;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .footer__grid {
+    display: grid;
+    gap: 3rem 2rem;
+    padding-block: clamp(3.5rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .footer__brand {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+
+  .footer__brand p {
+    max-width: 22rem;
+    color: var(--text-2);
+  }
+
+  .footer__social {
+    display: flex;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer__social a {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-pill);
+  }
+
+  .footer nav ul,
+  .footer__grid > div ul {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 1rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer nav a,
+  .footer__grid > div ul a {
+    display: inline-block;
+    padding-block: 0.25rem;
+    color: var(--text-2);
+    transition: color var(--dur-quick) var(--ease-out);
+  }
+
+  .footer__address {
+    padding-block: 0.25rem;
+    color: var(--text-2);
+  }
+
+  @media (hover: hover) {
+    .footer nav a:hover,
+    .footer__grid > div ul a:hover,
+    .footer__top:hover {
+      color: var(--text);
+    }
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--hairline);
+    font-size: var(--fs-0);
+    color: var(--text-3);
+  }
+
+  .footer__top {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-2);
+    transition: color var(--dur-quick) var(--ease-out);
+  }
+
+  /* Dekoratif dev yazı: kırpılan alt kenarıyla sayfayı kapatır. */
+  .footer__wordmark {
+    margin-top: 0.5rem;
+    margin-bottom: -0.14em;
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 17.4vw, 17rem);
+    font-weight: 600;
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    text-align: center;
+    white-space: nowrap;
+    color: rgb(238 242 247 / 0.07);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  @media (min-width: 48rem) {
+    .footer__grid {
+      grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    }
+  }
+</style>

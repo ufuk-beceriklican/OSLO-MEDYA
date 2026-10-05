@@ -1,0 +1,25 @@
+# Apache (cPanel / paylaşımlı barındırma) için. Başka bir sunucuda bu dosya yok sayılır.
+
+Options -Indexes -MultiViews
+DirectorySlash Off
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Adres çubuğundaki "index.html" ve ".html" uzantılı eski adresleri temiz adrese taşır
+  RewriteRule ^index\.html$ / [R=301,L]
+
+  # /iletisim gibi uzantısız adresleri iletisim/index.html dosyasına (yönlendirme yapmadan) eşler
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.+?)/?$ $1/index.html [L]
+</IfModule>
+
+# Eski demo adresleri → yeni adresler
+Redirect 301 /hizmetler.html /hizmetler
+Redirect 301 /blog.html /blog
+Redirect 301 /iletisim.html /iletisim
+Redirect 301 /referanslar.html /
+Redirect 301 /referanslar /
+Redirect 301 /admin.html /

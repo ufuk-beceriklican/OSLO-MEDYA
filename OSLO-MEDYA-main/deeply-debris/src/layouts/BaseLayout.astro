@@ -1,0 +1,121 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../styles/reset.css';
+import '../styles/base.css';
+import Seo from '../components/Seo.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  noindex?: boolean;
+  jsonLd?: object | object[];
+  /** Sayfa sonundaki kapanış CTA bandı. İletişim ve 404'te kapatılır. */
+  cta?: boolean;
+}
+
+const { cta = true, ...seo } = Astro.props;
+
+// Sayfa geçişi: eski içerik hızla silinir, yenisi aşağıdan yükselir (exponential ease-out).
+const pageTransition = {
+  forwards: {
+    old: { name: 'page-out', duration: '0.16s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'page-in', duration: '0.55s', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'backwards' },
+  },
+  backwards: {
+    old: { name: 'page-out', duration: '0.16s', easing: 'ease-in', fillMode: 'forwards' },
+    new: { name: 'page-in', duration: '0.55s', easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fillMode: 'backwards' },
+  },
+};
+---
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7fa" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <Seo {...seo} />
+    <script is:inline>
+      // Hero açılışı için JS yoksa ya da hareket azaltılmışsa hiçbir şey gizlenmez.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('has-intro');
+    </script>
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Ana içeriğe geç</a>
+    <Header />
+    <main id="main" tabindex="-1" transition:animate={pageTransition}>
+      <slot />
+    </main>
+    <div class="on-night finale">
+      {cta && <CtaBand />}
+      <Footer />
+    </div>
+    <script>
+      import '../scripts/app';
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  main:focus {
+    outline: none;
+  }
+
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+  }
+
+  @keyframes page-out {
+    to {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  /*
+    Hero açılışı: metin JS hazır olana kadar gizli, güneş yarıları ayrık konumda bekler.
+    3 sn içinde JS gelmezse CSS kendisi son durumu gösterir (içerik asla kaybolmaz).
+  */
+  html.has-intro [data-hero-in] {
+    opacity: 0;
+    animation: hero-failsafe 1ms linear 3s forwards;
+  }
+
+  html.has-intro [data-half='top'] {
+    transform: translate3d(-6%, -10%, 0);
+    animation: half-failsafe 1ms linear 3s forwards;
+  }
+
+  html.has-intro [data-half='bottom'] {
+    transform: translate3d(6%, 10%, 0);
+    animation: half-failsafe 1ms linear 3s forwards;
+  }
+
+  @keyframes hero-failsafe {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes half-failsafe {
+    to {
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,205 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/sections/PageHeader.astro';
+import Button from '../../components/ui/Button.astro';
+import Icon from '../../components/ui/Icon.astro';
+import { services } from '../../data/services';
+import { serviceImages } from '../../data/service-images';
+import { site } from '../../data/site';
+import { serviceLd } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const others = services.filter((item) => item.slug !== service.slug);
+const whatsapp = `${site.contact.whatsapp}?text=${encodeURIComponent(`Merhaba, ${service.title} hizmeti hakkında bilgi almak istiyorum.`)}`;
+---
+
+<BaseLayout
+  title={service.title}
+  description={service.meta}
+  jsonLd={serviceLd({ name: service.title, description: service.meta, path: `/hizmetler/${service.slug}` })}
+>
+  <PageHeader
+    title={service.title}
+    lead={service.tagline}
+    crumbs={[
+      { name: 'Hizmetler', path: '/hizmetler' },
+      { name: service.title, path: `/hizmetler/${service.slug}` },
+    ]}
+  />
+
+  <section class="section section--after-header">
+    <div class="container detail">
+      <div class="detail__text">
+        <p class="detail__lead" data-reveal>{service.description}</p>
+        <p class="detail__sales" data-reveal>{service.salesLine}</p>
+        <ul class="detail__list" role="list" data-reveal>
+          {
+            service.highlights.map((item) => (
+              <li>
+                <Icon name="check" size={22} />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="detail__actions" data-reveal>
+          <Button href={whatsapp} external size="lg">Teklif al</Button>
+          <Button href="/iletisim" variant="secondary" size="lg" icon="arrow-right">İletişim formu</Button>
+        </div>
+      </div>
+      <div class="detail__visual" aria-hidden="true">
+        <Image
+          src={serviceImages[service.slug]}
+          alt=""
+          widths={[480, 720, 1024]}
+          sizes="(min-width: 56rem) 40vw, 80vw"
+          format="webp"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--after-header" aria-labelledby="others-title">
+    <div class="container">
+      <h2 id="others-title" class="others__title" data-reveal>Diğer hizmetler</h2>
+      <ul class="others" role="list">
+        {
+          others.map((item) => (
+            <li class="others__item" data-reveal>
+              <a href={`/hizmetler/${item.slug}`}>
+                <span>{item.title}</span>
+                <Icon name="arrow-up-right" size={24} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .detail {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .detail__lead {
+    font-size: var(--fs-3);
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+  }
+
+  .detail__sales {
+    margin-top: 1.5rem;
+    font-family: var(--font-display);
+    font-size: var(--fs-4);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .detail__list {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 2.25rem;
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--hairline-strong);
+  }
+
+  .detail__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--hairline-strong);
+    font-size: var(--fs-2);
+  }
+
+  .detail__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.25rem;
+  }
+
+  /* Nesnenin arkasındaki daire: logodaki güneşin sessiz yankısı (gradient yok) */
+  .detail__visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    max-width: 34rem;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .detail__visual::before {
+    content: '';
+    position: absolute;
+    inset: 6%;
+    border-radius: 50%;
+    background: var(--mist);
+  }
+
+  .detail__visual :global(img) {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 28px 32px rgb(11 15 20 / 0.12));
+  }
+
+  .others__title {
+    margin-bottom: 2rem;
+    font-size: var(--fs-4);
+  }
+
+  .others {
+    list-style: none;
+    padding: 0;
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+
+  .others__item {
+    border-top: 1px solid var(--hairline-strong);
+  }
+
+  .others__item a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.25rem;
+    font-family: var(--font-display);
+    font-size: var(--fs-3);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+
+  @media (hover: hover) {
+    .others__item a :global(.icon) {
+      transition: transform var(--dur-fast) var(--ease-out);
+    }
+
+    .others__item a:hover :global(.icon) {
+      transform: translate(3px, -3px);
+    }
+  }
+
+  @media (min-width: 56rem) {
+    .detail {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: 5rem;
+    }
+  }
+</style>
